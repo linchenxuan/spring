@@ -1,3 +1,0 @@
-/home/lcx/spring/build/CMakeFiles/rebuild_cache.dir
-/home/lcx/spring/build/CMakeFiles/edit_cache.dir
-/home/lcx/spring/build/CMakeFiles/spring.dir
