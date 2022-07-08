@@ -13,3 +13,4 @@ public:
 };
 
 using Point2i = Vector2<int>;
+using Triangle2i = Vector2<int>[3];
