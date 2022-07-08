@@ -12,5 +12,10 @@ public:
     ~Vector2(){};
 };
 
+template <typename T>
+using Point2 = Vector2<T>;
+template <typename T>
+using Triangle2 = Vector2<T>[3];
+
 using Point2i = Vector2<int>;
 using Triangle2i = Vector2<int>[3];

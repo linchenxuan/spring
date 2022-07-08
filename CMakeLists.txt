@@ -9,6 +9,7 @@ MESSAGE(STATUS ${PROJECT_SOURCE_DIR})
 include_directories(
     ${PROJECT_SOURCE_DIR}/dependcy/
     ${PROJECT_SOURCE_DIR}/math/vector/
+    ${PROJECT_SOURCE_DIR}/math/
     ${PROJECT_SOURCE_DIR}/render/brush/
     ${PROJECT_SOURCE_DIR}/render/model/
 )
