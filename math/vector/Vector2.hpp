@@ -8,6 +8,7 @@ public:
     T y;
 
 public:
+    Vector2() = default;
     Vector2(T a, T b) : x(a), y(b){};
     ~Vector2(){};
 };

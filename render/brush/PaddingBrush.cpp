@@ -1,5 +1,6 @@
 #include "PaddingBrush.h"
 #include "Math.h"
+
 void PaddingBrush::DrawTriangle(Triangle2i triangle, TGAImage &image, TGAColor color)
 {
     Point2i bboxmin(image.width() - 1, image.height() - 1);
@@ -22,5 +23,23 @@ void PaddingBrush::DrawTriangle(Triangle2i triangle, TGAImage &image, TGAColor c
                 continue;
             image.set(x, y, color);
         }
+    }
+}
+
+void PaddingBrush::DrawOBJModel(std::shared_ptr<IModel> model, TGAImage &image, TGAColor color)
+{
+    auto faces = model->GetFaces();
+    auto vertexs = model->GetVertexs();
+
+    for (int i = 0; i < faces.size(); i++)
+    {
+        std::vector<int> face = faces[i];
+        Triangle2i triangle;
+        for (int j = 0; j < 3; j++)
+        {
+            Vector3f v0 = vertexs[face[j]];
+            triangle[j] = {static_cast<int>((v0.x + 100.) * image.width() / 200.), static_cast<int>(v0.y * image.height() / 200.)};
+        }
+        DrawTriangle(triangle, image, color);
     }
 }
