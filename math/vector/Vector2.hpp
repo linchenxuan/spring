@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Vector3.hpp>
+
 template <typename T>
 class Vector2
 {
@@ -9,6 +11,7 @@ public:
 
 public:
     Vector2() = default;
+    Vector2(const Vector3<T> &vec) : x(vec.x), y(vec.y){};
     Vector2(T a, T b) : x(a), y(b){};
     ~Vector2(){};
 };

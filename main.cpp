@@ -12,8 +12,8 @@ const TGAColor red = TGAColor(255, 0, 0, 255);
 int main()
 {
     TGAImage image(width, height, TGAImage::RGB);
-    std::unique_ptr<IBrush> brush = std::make_unique<PaddingBrush>();
+    std::unique_ptr<IBrush> brush = std::make_unique<PaddingBrush>(&image);
     std::shared_ptr<IModel> model = std::make_shared<OBJModel>("../resource/katarina/katarina01.obj");
-    brush->DrawOBJModel(model, image, white);
+    brush->DrawOBJModel(model, white);
     image.write_tga_file("output.tga");
 }

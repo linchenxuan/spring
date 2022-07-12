@@ -5,8 +5,8 @@
 class MeshBrush : public IBrush
 {
 public:
-    virtual void DrawTriangle(const Triangle2i &a, TGAImage &image, TGAColor color) override;
-    virtual void DrawOBJModel(std::shared_ptr<IModel> model, TGAImage &image, TGAColor color) override;
-    MeshBrush(){};
+    virtual void DrawTriangle(const Triangle3i &a, TGAColor color) override;
+    virtual void DrawOBJModel(std::shared_ptr<IModel> model, TGAColor color) override;
+    MeshBrush(TGAImage *image) : IBrush(image){};
     ~MeshBrush(){};
 };

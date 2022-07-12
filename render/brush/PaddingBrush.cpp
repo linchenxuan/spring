@@ -1,11 +1,11 @@
 #include "PaddingBrush.h"
 #include "Math.h"
 #include <iostream>
-void PaddingBrush::DrawTriangle(const Triangle2i &triangle, TGAImage &image, TGAColor color)
+void PaddingBrush::DrawTriangle(const Triangle3i &triangle, TGAColor color)
 {
-    Point2i bboxmin(image.width() - 1, image.height() - 1);
+    Point2i bboxmin(image->width() - 1, image->height() - 1);
     Point2i bboxmax(0, 0);
-    Point2i clamp(image.width() - 1, image.height() - 1);
+    Point2i clamp(image->width() - 1, image->height() - 1);
     for (int i = 0; i < 3; i++)
     {
         bboxmin.x = std::max(0, std::min(bboxmin.x, triangle[i].x));
@@ -21,12 +21,21 @@ void PaddingBrush::DrawTriangle(const Triangle2i &triangle, TGAImage &image, TGA
             auto bc_screen = Math::Barycentric<int>(triangle, {x, y});
             if (bc_screen.x < 0 || bc_screen.y < 0 || bc_screen.z < 0)
                 continue;
-            image.set(x, y, color);
+            int z = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                z += triangle[i].z * bc_screen[i];
+            }
+            if (zBuffer[int(x + y * image->width())] < z)
+            {
+                zBuffer[int(x + y * image->width())] = z;
+                image->set(x, y, color);
+            }
         }
     }
 }
 
-void PaddingBrush::DrawOBJModel(std::shared_ptr<IModel> model, TGAImage &image, TGAColor color)
+void PaddingBrush::DrawOBJModel(std::shared_ptr<IModel> model, TGAColor color)
 {
     auto faces = model->GetFaces();
     auto vertexs = model->GetVertexs();
@@ -34,21 +43,21 @@ void PaddingBrush::DrawOBJModel(std::shared_ptr<IModel> model, TGAImage &image, 
     for (int i = 0; i < faces.size(); i++)
     {
         std::vector<int> face = faces[i];
-        Triangle2i triangle;
+        Triangle3i triangle;
         Vector3f worldCoords[3];
         for (int j = 0; j < 3; j++)
         {
             Vector3f v0 = vertexs[face[j]];
-            triangle[j] = {static_cast<int>((v0.x + 100) * image.width() / 200), static_cast<int>(v0.y * image.height() / 200)};
+            triangle[j] = Vector3i((v0.x + 100) * image->width() / 200, v0.y * image->height() / 200, v0.z);
             worldCoords[j] = v0;
-        }
+        };
         Vector3f n = Math::CrossProduct(worldCoords[2] - worldCoords[0], worldCoords[1] - worldCoords[0]);
         n.Normalize();
         Vector3f lightDir(0, 0, -1);
         double intensity = n * lightDir;
         if (intensity > 0)
         {
-            DrawTriangle(triangle, image, TGAColor(intensity * 255, intensity * 255, intensity * 255, 255));
+            DrawTriangle(triangle, TGAColor(intensity * 255, intensity * 255, intensity * 255, 255));
         }
     }
 }

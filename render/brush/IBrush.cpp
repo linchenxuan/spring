@@ -4,7 +4,7 @@ IBrush::~IBrush()
 {
 }
 
-void IBrush::DrawLine(Point2i a, Point2i b, TGAImage &image, TGAColor color)
+void IBrush::DrawLine(Point2i a, Point2i b, TGAColor color)
 {
     bool steep = false;
     if (std::abs(a.x - b.x) < std::abs(a.y - b.y))
@@ -27,11 +27,11 @@ void IBrush::DrawLine(Point2i a, Point2i b, TGAImage &image, TGAColor color)
         int y = a.y + (x - a.x) * k;
         if (steep)
         {
-            image.set(y, x, color);
+            image->set(y, x, color);
         }
         else
         {
-            image.set(x, y, color);
+            image->set(x, y, color);
         }
     }
 }
