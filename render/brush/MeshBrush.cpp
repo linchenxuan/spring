@@ -1,6 +1,6 @@
 #include "MeshBrush.h"
 
-void MeshBrush::DrawTriangle(Triangle2i triangle, TGAImage &image, TGAColor color)
+void MeshBrush::DrawTriangle(const Triangle2i &triangle, TGAImage &image, TGAColor color)
 {
     this->DrawLine(triangle[0], triangle[1], image, color);
     this->DrawLine(triangle[1], triangle[2], image, color);
